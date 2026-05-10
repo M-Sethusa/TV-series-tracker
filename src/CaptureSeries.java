@@ -7,28 +7,39 @@ public class CaptureSeries {
         // Declaration
         String seriesID, seriesName, seriesNumOfEps, seriesAge;
 
-        // Display capture series title
-        Headings.displayCaptureTitle();
-        // Capture each field from user input
-        System.out.print("Enter the series ID: ");
-        seriesID = scanner.nextLine();
-        System.out.print("Enter the series name: ");
-        seriesName = scanner.nextLine();
-        System.out.print("Enter the series age restriction: ");
-        seriesAge = scanner.nextLine();
-        System.out.print("Enter the number of episodes for " + seriesName + ": ");
-        seriesNumOfEps = scanner.nextLine();
+        while (true) {
+            // Display capture series title
+            Headings.displayCaptureTitle();
+            // Capture each field from user input
+            System.out.print("Enter the series ID: ");
+            seriesID = scanner.nextLine().trim();
+            System.out.print("Enter the series name: ");
+            seriesName = scanner.nextLine();
+            System.out.print("Enter the series age restriction: ");
+            seriesAge = scanner.nextLine().trim();
+            System.out.print("Enter the number of episodes for " + seriesName + ": ");
+            seriesNumOfEps = scanner.nextLine().trim();
 
-        if (seriesID.isBlank() || seriesName.isBlank() || seriesAge.isBlank() || seriesNumOfEps.isBlank()) {
-            System.out.println("Invalid input. All fields are required!");
-            if (!Character.isDigit(Integer.parseInt(seriesAge)) && !Character.isDigit(Integer.parseInt(seriesNumOfEps))) {
-                System.out.println("Please enter a valid number for age restriction and number of episodes.");
+            // logic and validation
+            try {
+                if (seriesID.isBlank() || seriesName.isBlank() || seriesAge.isBlank() || seriesNumOfEps.isBlank()) {
+                    System.out.println("Please enter all the required fields.");
+                } else if (Integer.parseInt(seriesNumOfEps) <= 0) {
+                    System.out.println("Please enter a valid number of episodes.");
+                } else if (Integer.parseInt(seriesAge) < 2 || Integer.parseInt(seriesAge) > 18) {
+                    System.out.println("Please enter a valid age restriction between 2 and 18.");
+                } else {
+                    System.out.println("Series captured successfully!😎");
+                    // Create a new Series object using the captured values
+                    Series series = new Series(seriesID, seriesName, seriesNumOfEps, seriesAge);
+                    // Return the populated Series object to the caller
+                    return series;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please ensure that age and number of episodes are valid integers.");
+                System.out.println("Age restriction: e.g. 2-18");
+                System.out.println("Number of episodes: e.g. 10");
             }
         }
-        // Create a new Series object using the captured values
-        Series series = new Series(seriesID, seriesName, seriesNumOfEps, seriesAge);
-
-        // Return the populated Series object to the caller
-        return series;
     }
 }
