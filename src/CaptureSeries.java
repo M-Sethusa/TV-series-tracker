@@ -30,10 +30,16 @@ public class CaptureSeries {
                     System.out.println("Please enter a valid age restriction between 2 and 18.");
                 } else {
                     System.out.println("Series captured successfully!😎");
-                    // Create a new Series object using the captured values
-                    Series series = new Series(seriesID, seriesName, seriesNumOfEps, seriesAge);
-                    // Return the populated Series object to the caller
-                    return series;
+                    System.out.print("Add another series? (y/n): ");
+                    String addAnother = scanner.nextLine().trim();
+                    if (addAnother.equalsIgnoreCase("n")) {
+                        // Create a new Series object using the captured values
+                        Series series = new Series(seriesID, seriesName, seriesNumOfEps, seriesAge);
+                        // Return the populated Series object to the caller
+                        return series;
+                    } else {
+                        return captureSeries(scanner);
+                    }
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Please ensure that age and number of episodes are valid integers.");
